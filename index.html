@@ -125,6 +125,7 @@
     .combatant { position: relative; z-index: 1; display: grid; justify-items: center; gap: 10px; text-align: center; }
     .combatant.player { grid-column: 1; grid-row: 1; }
     .combatant.enemy { grid-column: 3; grid-row: 1; }
+    .combatant.enemy { isolation: isolate; }
     .sprite { display: grid; width: 112px; height: 112px; place-items: center; border: 2px solid #d5e0d3; background: radial-gradient(ellipse, #20271f, #151a16 72%); font-size: 70px; image-rendering: pixelated; }
     .enemy .sprite { width: 126px; height: 138px; border-color: var(--enemy-color, var(--green)); color: var(--enemy-color, var(--green)); background: radial-gradient(ellipse, color-mix(in srgb, var(--enemy-color, var(--green)) 28%, #171410), #171410 72%); font-size: 82px; filter: drop-shadow(0 0 15px color-mix(in srgb, var(--enemy-color, var(--green)) 60%, transparent)); }
     .boss-arena .enemy .sprite { width: 152px; height: 166px; border: 3px double #f06b68; background: radial-gradient(ellipse, #85282e, #250c12 75%); box-shadow: 0 0 30px #ec414177, inset 0 0 20px #8a1e2866; font-size: 98px; }
@@ -160,6 +161,36 @@
     .combatant.player.attacking { animation: player-lunge .4s ease-in-out; }
     .combatant.enemy.attacking { animation: enemy-lunge .4s ease-in-out; }
     .combatant.is-hit .sprite { animation: hit-flash .42s steps(2, end); }
+    .element-impact { position: absolute; top: 42%; left: 50%; z-index: 2; display: grid; width: 150px; height: 150px; place-items: center; overflow: visible; pointer-events: none; transform: translate(-50%, -50%); }
+    .element-impact span { position: absolute; display: block; font: 800 34px/1 var(--pixel); text-shadow: 0 0 10px currentColor, 0 0 24px currentColor; }
+    .element-impact.fire { color: #ff9a38; animation: element-fire .68s ease-out both; }
+    .element-impact.fire span:nth-child(1) { left: 26%; bottom: 12%; animation: flame-rise .48s ease-out infinite alternate; }
+    .element-impact.fire span:nth-child(2) { left: 48%; bottom: 8%; font-size: 44px; animation: flame-rise .56s ease-out .08s infinite alternate-reverse; }
+    .element-impact.fire span:nth-child(3) { right: 20%; bottom: 13%; animation: flame-rise .44s ease-out .12s infinite alternate; }
+    .element-impact.ice { color: #9af4ff; animation: element-freeze .68s ease-out both; }
+    .element-impact.ice span:nth-child(1) { left: 18%; top: 22%; }
+    .element-impact.ice span:nth-child(2) { right: 18%; top: 28%; font-size: 26px; }
+    .element-impact.ice span:nth-child(3) { left: 41%; bottom: 15%; font-size: 25px; }
+    .element-impact.lightning { color: #e6fbff; animation: element-stun .68s steps(2, end) both; }
+    .element-impact.lightning span:nth-child(1) { left: 24%; top: 20%; }
+    .element-impact.lightning span:nth-child(2) { right: 18%; top: 29%; font-size: 27px; color: #b7f4ff; }
+    .element-impact.lightning span:nth-child(3) { left: 42%; bottom: 15%; font-size: 23px; }
+    .element-impact.earth { color: #d3a476; animation: element-rupture .68s ease-out both; }
+    .element-impact.earth span:nth-child(1) { left: 13%; bottom: 14%; transform: rotate(-24deg); }
+    .element-impact.earth span:nth-child(2) { right: 15%; bottom: 11%; font-size: 43px; transform: rotate(20deg); }
+    .element-impact.earth span:nth-child(3) { left: 42%; top: 12%; font-size: 22px; }
+    .element-impact.shadow { color: #d59aff; animation: element-shadow .68s ease-out both; }
+    .element-impact.shadow span:nth-child(1) { inset: 14px; border: 3px solid currentColor; border-radius: 50%; font-size: 0; box-shadow: inset 0 0 20px currentColor, 0 0 18px currentColor; }
+    .element-impact.shadow span:nth-child(2) { left: 5%; top: 30%; }
+    .element-impact.shadow span:nth-child(3) { right: 4%; bottom: 24%; }
+    .element-impact.starfall { color: #fff0a1; animation: element-starfall .68s ease-out both; }
+    .element-impact.starfall span:nth-child(1) { left: 14%; top: 21%; }
+    .element-impact.starfall span:nth-child(2) { right: 14%; top: 35%; font-size: 27px; }
+    .element-impact.starfall span:nth-child(3) { left: 40%; bottom: 12%; font-size: 43px; }
+    .element-impact.spark { color: #ffe083; animation: element-spark .68s ease-out both; }
+    .element-impact.spark span:nth-child(1) { left: 20%; top: 24%; }
+    .element-impact.spark span:nth-child(2) { right: 18%; bottom: 24%; font-size: 25px; }
+    .element-impact.spark span:nth-child(3) { left: 43%; bottom: 12%; font-size: 38px; }
     .combatant.enemy.defeated { animation: enemy-defeat 1.15s ease-in .42s forwards; }
     .combatant.player.defeated { animation: player-defeat 1.15s ease-in .42s forwards; }
     @keyframes player-lunge { 40% { transform: translateX(15px) scale(1.08); } }
@@ -191,7 +222,19 @@
     .impact-burst.target-enemy { right: 12%; }
     .impact-burst.target-player { left: 12%; --attack-color: #ff7280; }
     @keyframes impact-burst { 55% { opacity: 1; transform: translateY(-50%) scale(1.2); } 100% { opacity: 0; transform: translateY(-50%) scale(1.65); } }
+    @keyframes flame-rise { to { transform: translateY(-17px) scale(1.15); filter: brightness(1.35); } }
+    @keyframes element-fire { 15% { opacity: 1; transform: translate(-50%,-50%) scale(.6); } 45% { opacity: 1; transform: translate(-50%,-50%) scale(1.12); } 100% { opacity: 0; transform: translate(-50%,-56%) scale(1.3); } }
+    @keyframes element-freeze { 15% { opacity: 1; transform: translate(-50%,-50%) scale(.55) rotate(-18deg); } 50% { opacity: 1; transform: translate(-50%,-50%) scale(1.05) rotate(0); } 100% { opacity: 0; transform: translate(-50%,-50%) scale(1.22); filter: blur(2px); } }
+    @keyframes element-stun { 0%, 100% { opacity: 0; } 18%, 72% { opacity: 1; transform: translate(-50%,-50%) rotate(-8deg) scale(1.05); } 38% { transform: translate(-47%,-50%) rotate(9deg) scale(.96); } 55% { transform: translate(-53%,-50%) rotate(-7deg) scale(1.04); } }
+    @keyframes element-rupture { 10% { opacity: 0; transform: translate(-50%,-10%) scale(.4); } 50% { opacity: 1; transform: translate(-50%,-58%) scale(1.1); } 100% { opacity: 0; transform: translate(-50%,-72%) scale(1.2); } }
+    @keyframes element-shadow { 10% { opacity: 0; transform: translate(-50%,-50%) scale(.2) rotate(0); } 45% { opacity: 1; transform: translate(-50%,-50%) scale(1) rotate(150deg); } 100% { opacity: 0; transform: translate(-50%,-50%) scale(1.3) rotate(260deg); } }
+    @keyframes element-starfall { 0% { opacity: 0; transform: translate(-50%,-80%) scale(.35); } 35% { opacity: 1; transform: translate(-50%,-38%) scale(1.15); } 100% { opacity: 0; transform: translate(-50%,-50%) scale(1.5); filter: brightness(1.8); } }
+    @keyframes element-spark { 15% { opacity: 1; transform: translate(-50%,-50%) scale(.5); } 45% { opacity: 1; transform: translate(-50%,-50%) scale(1.12) rotate(12deg); } 100% { opacity: 0; transform: translate(-50%,-50%) scale(1.3) rotate(32deg); } }
     .arsenal-panel { display: flex; align-items: center; gap: 10px; padding: 8px 13px; border-bottom: 1px solid #39443b; background: #10110f; }
+    .audio-controls { display: flex; gap: 4px; }
+    .audio-toggle { padding: 6px 7px; border: 1px solid #34463a; background: #101413; color: #a4aaa2; font: 700 8px var(--pixel); white-space: nowrap; cursor: pointer; }
+    .audio-toggle[aria-pressed="true"] { border-color: #75d7c6; color: #b7fff0; box-shadow: inset 0 0 9px #39cdb321; }
+    .audio-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     .arsenal-label { flex: 0 0 auto; color: #d7c798; font: 700 8px/1.5 var(--pixel); letter-spacing: .5px; }
     .arsenal-list { display: flex; flex: 1 1 auto; gap: 6px; overflow-x: auto; padding: 2px 2px 4px; scrollbar-color: #66573a #10110f; scrollbar-width: thin; }
     .attack-choice { display: inline-flex; flex: 0 0 auto; min-height: 31px; align-items: center; gap: 5px; padding: 5px 8px; border: 1px solid #585342; background: #171611; color: #d9d4c3; font: 700 8px var(--pixel); cursor: pointer; }
@@ -285,6 +328,8 @@
       .shell { width: min(100% - 20px, 580px); padding-top: 12px; }
       .topbar { align-items: flex-start; }
       .top-controls { flex-direction: column-reverse; align-items: flex-end; gap: 2px; }
+      .audio-controls { justify-content: flex-end; }
+      .audio-toggle { padding: 5px 6px; font-size: 7px; }
       .brand-name { font-size: 13px; }
       .hud { gap: 5px; }
       .hud-chip { padding: 5px 6px; font-size: 9px; }
@@ -319,6 +364,7 @@
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
       .shell.screen-shake, .combatant.attacking, .combatant.is-hit .sprite,
       .attack-projectile, .impact-burst { animation: none !important; }
+      .element-impact, .element-impact * { animation: none !important; opacity: .9; }
       .combatant.defeated { animation: none !important; opacity: 0; filter: blur(9px); }
       .attack-projectile { left: 77%; opacity: 1; }
       .attack-projectile.enemy-projectile { left: 19%; }
@@ -345,6 +391,10 @@
         <div class="brand-name">SQL QUEST<span>THE DATA DUNGEON</span></div>
       </div>
       <div class="top-controls">
+        <div class="audio-controls" aria-label="Audio settings">
+          <button class="audio-toggle" type="button" id="music-toggle" aria-pressed="true">♫ MUSIC ON</button>
+          <button class="audio-toggle" type="button" id="sound-toggle" aria-pressed="true">♪ SFX ON</button>
+        </div>
         <div class="hud" aria-label="Adventure progress">
           <div class="hud-chip">XP <strong id="xp-value">0</strong></div>
           <div class="hud-chip">CHAPTER <strong id="chapter-value">1 / 35</strong></div>
@@ -799,6 +849,7 @@
     }
 
     const storageKey = "sql-quest-data-dungeon-v1";
+    const audioSettingsKey = "sql-quest-audio-v1";
     const maxPlayerHp = 3;
     const badgeXp = 75;
     const bossXp = 180;
@@ -860,6 +911,13 @@
     let shakeTimer;
     let toastTimer;
     let fullModelSheetReady = false;
+    let audioSettings = loadAudioSettings();
+    let audioContext = null;
+    let musicBus = null;
+    let soundBus = null;
+    let musicTimer = null;
+    let musicStep = 0;
+    let audioUnavailable = false;
 
     function loadProgress() {
       try {
@@ -955,6 +1013,152 @@
       } catch (error) {
         console.warn("Could not save SQL Quest progress.", error);
         showToast("Progress could not be saved in this browser.");
+      }
+    }
+
+    function loadAudioSettings() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(audioSettingsKey));
+        return {
+          music: !saved || saved.music !== false,
+          sound: !saved || saved.sound !== false
+        };
+      } catch (error) {
+        console.warn("Could not load SQL Quest audio settings.", error);
+        return { music: true, sound: true };
+      }
+    }
+
+    function saveAudioSettings() {
+      try {
+        localStorage.setItem(audioSettingsKey, JSON.stringify(audioSettings));
+      } catch (error) {
+        console.warn("Could not save SQL Quest audio settings.", error);
+        showToast("Audio settings could not be saved in this browser.");
+      }
+    }
+
+    function updateAudioControls() {
+      const musicButton = document.getElementById("music-toggle");
+      const soundButton = document.getElementById("sound-toggle");
+      musicButton.textContent = `♫ MUSIC ${audioSettings.music ? "ON" : "OFF"}`;
+      soundButton.textContent = `♪ SFX ${audioSettings.sound ? "ON" : "OFF"}`;
+      musicButton.setAttribute("aria-pressed", String(audioSettings.music));
+      soundButton.setAttribute("aria-pressed", String(audioSettings.sound));
+      if (audioUnavailable) {
+        musicButton.disabled = true;
+        soundButton.disabled = true;
+        musicButton.title = "Web Audio is not supported by this browser.";
+        soundButton.title = musicButton.title;
+      }
+    }
+
+    function getAudioContext() {
+      if (audioContext) return audioContext;
+      const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextConstructor) {
+        audioUnavailable = true;
+        updateAudioControls();
+        showToast("Audio is not supported by this browser.");
+        return null;
+      }
+      audioContext = new AudioContextConstructor();
+      musicBus = audioContext.createGain();
+      soundBus = audioContext.createGain();
+      musicBus.gain.value = 0.0001;
+      soundBus.gain.value = 0.24;
+      musicBus.connect(audioContext.destination);
+      soundBus.connect(audioContext.destination);
+      return audioContext;
+    }
+
+    function resumeAudio() {
+      const context = getAudioContext();
+      if (!context) return Promise.resolve(false);
+      if (context.state === "running") {
+        if (audioSettings.music) startMusicLoop();
+        return Promise.resolve(true);
+      }
+      return context.resume().then(() => {
+        if (audioSettings.music) startMusicLoop();
+        return true;
+      }).catch(error => {
+        console.warn("Could not start SQL Quest audio.", error);
+        showToast("Audio could not start. Check your browser's sound settings.");
+        return false;
+      });
+    }
+
+    function unlockAudio() {
+      if (audioSettings.music || audioSettings.sound) resumeAudio();
+    }
+
+    function playTone(frequency, endFrequency, duration, volume, type, bus, delay = 0) {
+      if (!audioContext || audioContext.state !== "running") return;
+      const start = audioContext.currentTime + delay;
+      const end = start + duration;
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(frequency, start);
+      oscillator.frequency.exponentialRampToValueAtTime(Math.max(25, endFrequency), end);
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.linearRampToValueAtTime(volume, start + Math.min(0.025, duration / 4));
+      gain.gain.exponentialRampToValueAtTime(0.0001, end);
+      oscillator.connect(gain);
+      gain.connect(bus);
+      oscillator.start(start);
+      oscillator.stop(end + 0.01);
+    }
+
+    function startMusicLoop() {
+      if (musicTimer || !audioContext || audioContext.state !== "running" || !audioSettings.music) return;
+      musicBus.gain.setTargetAtTime(0.12, audioContext.currentTime, 0.08);
+      const melody = [293.66, 0, 349.23, 440, 392, 0, 349.23, 261.63, 293.66, 0, 220, 261.63, 349.23, 0, 293.66, 220];
+      const bass = [73.42, 0, 0, 0, 87.31, 0, 0, 0, 65.41, 0, 0, 0, 98, 0, 0, 0];
+      musicTimer = window.setInterval(() => {
+        if (!audioSettings.music || !audioContext || audioContext.state !== "running") return;
+        const step = musicStep % melody.length;
+        if (melody[step]) playTone(melody[step], melody[step] * 0.985, 0.34, 0.045, "triangle", musicBus);
+        if (bass[step]) playTone(bass[step], bass[step] * 0.7, 1.15, 0.07, "sine", musicBus);
+        if (step === 0 || step === 8) playTone(146.83, 110, 1.9, 0.018, "sine", musicBus);
+        musicStep += 1;
+      }, 420);
+    }
+
+    function playAttackSound(attackId) {
+      if (!audioSettings.sound) return;
+      resumeAudio().then(ready => {
+        if (!ready || !audioSettings.sound) return;
+        const cues = {
+          "data-spark": [[740, 330, 0.22, 0.16, "triangle", 0]],
+          "fire-blast": [[190, 48, 0.34, 0.2, "sawtooth", 0], [92, 40, 0.24, 0.09, "triangle", 0.06]],
+          "ice-shard": [[1046, 350, 0.34, 0.15, "triangle", 0], [1396, 780, 0.2, 0.06, "sine", 0.08]],
+          "lightning-shock": [[780, 95, 0.2, 0.17, "square", 0], [520, 80, 0.24, 0.1, "sawtooth", 0.1]],
+          "earth-rupture": [[120, 38, 0.4, 0.18, "sawtooth", 0], [66, 35, 0.34, 0.12, "triangle", 0.04]],
+          "shadow-pulse": [[220, 48, 0.46, 0.17, "sine", 0], [164, 52, 0.34, 0.09, "triangle", 0.08]],
+          "starfall": [[1174, 220, 0.5, 0.14, "sine", 0], [880, 660, 0.38, 0.1, "triangle", 0.09]],
+          damage: [[170, 55, 0.28, 0.17, "sawtooth", 0], [95, 48, 0.2, 0.08, "triangle", 0.05]]
+        };
+        (cues[attackId] || cues["data-spark"]).forEach(([frequency, endFrequency, duration, volume, type, delay]) => {
+          playTone(frequency, endFrequency, duration, volume, type, soundBus, delay);
+        });
+      });
+    }
+
+    function setAudioSetting(setting, enabled) {
+      audioSettings[setting] = enabled;
+      saveAudioSettings();
+      updateAudioControls();
+      if (setting === "music") {
+        if (enabled) unlockAudio();
+        else {
+          window.clearInterval(musicTimer);
+          musicTimer = null;
+          if (audioContext && musicBus) musicBus.gain.setTargetAtTime(0.0001, audioContext.currentTime, 0.06);
+        }
+      } else if (enabled) {
+        unlockAudio();
       }
     }
 
@@ -1187,6 +1391,7 @@
     function playCombatEffect(side, attackId) {
       clearCombatEffects();
       combatEffect = { side, attackId: side === "player" ? attackId : null };
+      playAttackSound(side === "player" ? attackId : "damage");
       render();
 
       const shell = document.querySelector(".shell");
@@ -1204,6 +1409,8 @@
         battlefield.classList.remove("player-attacking", "enemy-attacking");
         const effects = battlefield.querySelector(".combat-vfx");
         if (effects) effects.remove();
+        const impact = battlefield.querySelector(".element-impact");
+        if (impact) impact.remove();
       }, 720);
     }
 
@@ -1213,6 +1420,15 @@
       const playerAttacks = combatEffect && combatEffect.side === "player";
       const enemyAttacks = combatEffect && combatEffect.side === "enemy";
       const selectedAttack = attacksById.get(combatEffect && combatEffect.attackId);
+      const impactGlyphs = selectedAttack && ({
+        "data-spark": ["✦", "·", "✧"],
+        "fire-blast": ["♨", "🔥", "♨"],
+        "ice-shard": ["❄", "✧", "❅"],
+        "lightning-shock": ["ϟ", "✦", "ϟ"],
+        "earth-rupture": ["◆", "◈", "▪"],
+        "shadow-pulse": ["◉", "✦", "◉"],
+        "starfall": ["✦", "✧", "★"]
+      })[selectedAttack.id];
       const foePct = Math.max(0, enemyHp / chapter.questions.length * 100);
       const playerPct = Math.max(0, playerHp / maxPlayerHp * 100);
       const hearts = Array.from({ length: maxPlayerHp }, (_, index) =>
@@ -1240,7 +1456,7 @@
           </div>
         </div>
         <div class="combatant enemy${enemyAttacks ? " attacking" : playerAttacks ? " is-hit" : ""}${mode === "victory" ? " defeated" : ""}">
-          <div class="sprite" aria-hidden="true">${chapter.sprite}</div><div class="combatant-name">${mode === "victory" ? "VANQUISHED" : escapeHtml(chapter.foe).toUpperCase()}</div>
+          <div class="sprite" aria-hidden="true">${chapter.sprite}</div>${playerAttacks && selectedAttack ? `<div class="element-impact ${selectedAttack.cssClass.replace("attack-", "")}" aria-hidden="true">${impactGlyphs.map(glyph => `<span>${glyph}</span>`).join("")}</div>` : ""}<div class="combatant-name">${mode === "victory" ? "VANQUISHED" : escapeHtml(chapter.foe).toUpperCase()}</div>
         </div>
         <div class="battle-note">${mode === "lesson" ? chapter.isBoss ? "☠ A MAJOR ENCOUNTER AWAITS ☠" : "A NEW CHALLENGER APPROACHES..." : mode === "gameover" ? "YOUR HEARTS ARE EMPTY." : mode === "victory" ? chapter.isBoss ? "BOSS DEFEATED!" : "GUARDIAN DEFEATED!" : chapter.isBoss ? "BOSS FIGHT · CHOOSE YOUR ANSWER..." : "CHOOSE YOUR ANSWER..."}</div>`;
     }
@@ -1543,7 +1759,26 @@
       toastTimer = window.setTimeout(() => toast.classList.remove("show"), 2400);
     }
 
+    document.addEventListener("pointerdown", unlockAudio, { capture: true });
+    document.addEventListener("keydown", unlockAudio, { capture: true });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        window.clearInterval(musicTimer);
+        musicTimer = null;
+      } else if (audioSettings.music && audioContext && audioContext.state === "running") {
+        startMusicLoop();
+      }
+    });
+
     document.addEventListener("click", event => {
+      if (event.target.closest("#music-toggle")) {
+        setAudioSetting("music", !audioSettings.music);
+        return;
+      }
+      if (event.target.closest("#sound-toggle")) {
+        setAudioSetting("sound", !audioSettings.sound);
+        return;
+      }
       const characterButton = event.target.closest("[data-character]");
       if (characterButton) {
         if (charactersById.has(characterButton.dataset.character)) {
@@ -1634,6 +1869,7 @@
       if (event.target.id === "boss-query") bossQueryDraft = event.target.value;
     });
 
+    updateAudioControls();
     validatePortraitSheet();
     validateFullModelSheet();
     render();
