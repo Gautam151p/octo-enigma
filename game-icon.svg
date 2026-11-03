@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" shape-rendering="crispEdges">
+  <defs>
+    <linearGradient id="space" x2="1" y2="1">
+      <stop stop-color="#08152f"/>
+      <stop offset="1" stop-color="#171033"/>
+    </linearGradient>
+    <linearGradient id="disk" x2="0" y2="1">
+      <stop stop-color="#6ffaff"/>
+      <stop offset="1" stop-color="#078ddf"/>
+    </linearGradient>
+    <linearGradient id="wand" x2="0" y2="1">
+      <stop stop-color="#f8d77e"/>
+      <stop offset=".48" stop-color="#9d602d"/>
+      <stop offset="1" stop-color="#45263e"/>
+    </linearGradient>
+  </defs>
+  <rect x="3" y="3" width="122" height="122" rx="8" fill="#03050b" stroke="#131626" stroke-width="3"/>
+  <rect x="8" y="8" width="112" height="112" rx="6" fill="url(#space)"/>
+  <g fill="#72daf9" opacity=".8">
+    <rect x="17" y="21" width="2" height="2"/><rect x="33" y="13" width="2" height="2"/>
+    <rect x="103" y="22" width="2" height="2"/><rect x="111" y="50" width="2" height="2"/>
+    <rect x="19" y="77" width="2" height="2"/><rect x="105" y="103" width="2" height="2"/>
+    <rect x="90" y="14" width="2" height="2"/>
+  </g>
+  <circle cx="92" cy="33" r="13" fill="#ffb629" stroke="#321d25" stroke-width="3"/>
+  <circle cx="92" cy="32" r="8" fill="#ffe948"/>
+  <rect x="89" y="23" width="3" height="3" fill="#fff5a0"/>
+  <g stroke="#c1ffff" stroke-width="2">
+    <path d="M37 47c0-5 15-9 31-9s31 4 31 9v35c0 5-15 9-31 9s-31-4-31-9z" fill="#0756af"/>
+    <path d="M37 47c0 5 15 9 31 9s31-4 31-9-15-9-31-9-31 4-31 9z" fill="#68f8f3"/>
+    <path d="M37 64c0 5 15 9 31 9s31-4 31-9" fill="none"/>
+    <path d="M37 79c0 5 15 9 31 9s31-4 31-9" fill="none"/>
+  </g>
+  <g transform="rotate(-43 63 68)">
+    <rect x="57" y="32" width="10" height="76" rx="2" fill="url(#wand)" stroke="#180f1e" stroke-width="2"/>
+    <path d="M57 39h10M57 98h10" stroke="#ffd574" stroke-width="3"/>
+    <path d="M62 25l5 8h-10z" fill="#f3ce77" stroke="#221527" stroke-width="2"/>
+    <path d="M58 107h8l-4 9z" fill="#de9d46" stroke="#221527" stroke-width="2"/>
+    <circle cx="62" cy="33" r="3" fill="#fff19b"/>
+  </g>
+  <path d="M46 111h36" stroke="#141327" stroke-width="7"/>
+  <text x="64" y="116" fill="#99ffff" font-family="monospace" font-size="8" font-weight="bold" text-anchor="middle" stroke="#091020" stroke-width=".8" paint-order="stroke">SQL QUEST</text>
+</svg>
